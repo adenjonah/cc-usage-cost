@@ -11,6 +11,7 @@ import datetime
 import glob
 import json
 import os
+import platform
 import sys
 
 since = sys.argv[1] if len(sys.argv) > 1 else "2026-05-01"
@@ -98,13 +99,13 @@ if os.path.exists(hp):
         if not ts:
             continue
         secs = ts / 1000 if ts > 1e12 else ts
-        day = datetime.datetime.utcfromtimestamp(secs).strftime("%Y-%m-%d")
+        day = datetime.datetime.fromtimestamp(secs, datetime.timezone.utc).strftime("%Y-%m-%d")
         if day >= since:
             hist[day] += 1
 missing = {k: v for k, v in sorted(hist.items()) if k not in transcript_days}
 
 out = {
-    "host": os.uname().nodename,
+    "host": platform.node(),
     "since": since,
     "files": files,
     "usage_lines": lines,
