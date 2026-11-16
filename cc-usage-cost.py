@@ -5,22 +5,28 @@ Usage: cc-usage-cost.py usage.json [more.json ...]
 
 Rates are $ per million tokens, in this order:
 (input, 5 minute cache write, 1 hour cache write, cache read, output).
-Copied from https://platform.claude.com/docs/en/about-claude/pricing on 2026-08-28.
+Copied from https://platform.claude.com/docs/en/about-claude/pricing on 2026-11-16.
+Haiku 5.5 uses its rate for prompts up to 100,000 tokens (longer prompts cost 5x).
 """
 import collections
 import json
 import sys
 
 PRICES = {
+    "claude-fable-5-2":  (8, 10, 16, 0.2, 40),
+    "claude-fable-5-1":  (10, 12.5, 20, 0.25, 50),
     "claude-fable-5":    (10, 12.5, 20, 1.0, 50),
+    "claude-opus-5-5":   (4, 5, 8, 0.2, 20),
     "claude-opus-5":     (5, 6.25, 10, 0.5, 25),
     "claude-opus-4-8":   (5, 6.25, 10, 0.5, 25),
     "claude-opus-4-7":   (5, 6.25, 10, 0.5, 25),
     "claude-opus-4-6":   (5, 6.25, 10, 0.5, 25),
     "claude-opus-4-5":   (5, 6.25, 10, 0.5, 25),
+    "claude-sonnet-5-5": (2, 2.5, 4, 0.1, 10),
     "claude-sonnet-5":   (2, 2.5, 4, 0.2, 10),
     "claude-sonnet-4-6": (3, 3.75, 6, 0.3, 15),
     "claude-sonnet-4-5": (3, 3.75, 6, 0.3, 15),
+    "claude-haiku-5-5":  (0.1, 0.125, 0.2, 0.01, 0.5),
     "claude-haiku-4-5":  (1, 1.25, 2, 0.1, 5),
 }
 
